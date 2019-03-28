@@ -19,16 +19,13 @@ bool MyMessageQueueManager::CreateMessageQueue(const std::string & in_queueName)
 			throw std::logic_error("queue must have a name");
 
 		//if queue doesn't exist register it
-		if (subscriptionMap.find(in_queueName)==subscriptionMap.end())
+		auto status = subscriptionMap.insert({in_queueName, SubscriptionSet()});
+
+		if (!status.second)
 		{
-			subscriptionMap[in_queueName];
+			throw std::logic_error("given queue already exist");
 		}
 
-		//this could be simple a return statment as well
-		//but for clarity purposes I have given single return point to these member functions both in case of
-		//success and failure.
-		//also to gives single log point in case of exceptions
-		else throw std::logic_error("given queue already exist");
 
 	}
 	catch(std::exception& ex)
@@ -56,10 +53,11 @@ bool MyMessageQueueManager::PostMessage(const std::string& in_queueName, const s
 		auto& subscription_list = queue->second;
 
 		//and for each subscriber
+		auto message = std::make_shared<Message>(in_message);
 		for (auto subscriber: subscription_list)
 		{
 			auto& subscriber_data = subscriberDataMap[subscriber]; //get data against each subscriber
-			subscriber_data.PutMessage(in_message);	//push the message in messages list for the subscriber
+			subscriber_data.PutMessage(message);	//push the message in messages list for the subscriber
 		}
 	}
 	catch (std::exception& ex)

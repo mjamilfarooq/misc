@@ -17,7 +17,7 @@ std::string SubscriberData::GetMessage()
 
 	if (messages.size()>0)			//and message list is not empty
 	{
-		message = messages.front();	//get message on the front
+		message = messages.front()->getMessage();	//get message on the front
 		messages.pop();				//delete the front message
 	}
 
@@ -25,7 +25,7 @@ std::string SubscriberData::GetMessage()
 	return message;
 }
 
-void SubscriberData::PutMessage(const std::string & message)
+void SubscriberData::PutMessage(MessageRef& message)
 {
 	//insert the message for the queue name
 	messages.push(message);

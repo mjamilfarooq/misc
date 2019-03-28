@@ -12,7 +12,9 @@
 #include <string>
 #include <queue>
 
-using Messages = std::queue<std::string>;
+#include "Message.h"
+
+using Messages = std::queue<MessageRef>;
 
 class SubscriberData {
 private:
@@ -23,7 +25,7 @@ public:
 	SubscriberData();
 
 	std::string GetMessage();
-	void PutMessage(const std::string & message);
+	void PutMessage(MessageRef& message);
 
 	~SubscriberData();
 };

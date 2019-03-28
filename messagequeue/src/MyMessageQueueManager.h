@@ -14,7 +14,8 @@
 #include "IMessageQueueManager.h"
 #include "SubscriberData.h"
 
-using SubscriptionMap = std::unordered_map<std::string, std::set<SubscriptionHandle>>;
+using SubscriptionSet = std::set<SubscriptionHandle>;
+using SubscriptionMap = std::unordered_map<std::string, SubscriptionSet>;
 using SubscriberDataMap = std::unordered_map<SubscriptionHandle, SubscriberData>;
 
 class MyMessageQueueManager: public IMessageQueueManager {
